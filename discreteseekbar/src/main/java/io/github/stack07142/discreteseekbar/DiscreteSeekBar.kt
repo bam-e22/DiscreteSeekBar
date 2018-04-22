@@ -21,6 +21,7 @@ import kotlin.math.round
 /**
  * 1. 빌더
  * 2. TickMarkText 자동 생성 기능 추가
+ * value float으로
  *
  * Kotlin
  * !!
@@ -112,10 +113,10 @@ class DiscreteSeekBar @JvmOverloads constructor(context: Context, attrs: Attribu
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec)
 
-        trackStartX = (paddingLeft + thumbPressedRadius).toFloat()
-        trackEndX = (measuredWidth - paddingRight - thumbPressedRadius).toFloat()
+        trackStartX = round((paddingLeft + thumbPressedRadius).toFloat())
+        trackEndX = round((measuredWidth - paddingRight - thumbPressedRadius).toFloat())
         trackLength = trackEndX - trackStartX
-        trackSectionLength = trackLength / sectionCount
+        trackSectionLength = round(trackLength / sectionCount)
 
         val heightMode = View.MeasureSpec.getMode(heightMeasureSpec)
 
@@ -189,7 +190,7 @@ class DiscreteSeekBar @JvmOverloads constructor(context: Context, attrs: Attribu
 
         // 4. Draw thumb
         if (!isThumbDragging) {
-            thumbCenterX = trackStartX + trackSectionLength * valueIndex
+            thumbCenterX = round(trackStartX + trackSectionLength * valueIndex)
         }
 
         Log.d("todd", "onDraw() - isThumbDragging=$isThumbDragging, thumbCenterX=$thumbCenterX")
