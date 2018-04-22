@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="24dp"
+    tools:context=".MainActivity">
+
+    <!-- enable track touch -->
+    <io.github.stack07142.kotlindiscreteslider.DiscreteSeekBar
+        android:id="@+id/slider_1"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="30dp"
+        app:DiscreteSeekBar_maxValue="400"
+        app:DiscreteSeekBar_minValue="-400"
+        app:DiscreteSeekBar_sectionCount="4"
+        app:DiscreteSeekBar_thumbColor="@color/colorLimeA400"
+        app:DiscreteSeekBar_thumbDefaultSize="16dp"
+        app:DiscreteSeekBar_thumbPressedSize="24dp"
+        app:DiscreteSeekBar_tickMarkDrawable="@drawable/tickmark"
+        app:DiscreteSeekBar_tickMarkTextColor="@color/colorBlack"
+        app:DiscreteSeekBar_tickMarkTextSize="12sp"
+        app:DiscreteSeekBar_tickMarkTopMargin="18dp"
+        app:DiscreteSeekBar_trackColor="@color/colorBlueGrey900"
+        app:DiscreteSeekBar_trackTouchEnable="true"
+        app:DiscreteSeekBar_trackWidth="1dp"
+        app:DiscreteSeekBar_value="0" />
+
+    <!-- disable track touch -->
+    <io.github.stack07142.kotlindiscreteslider.DiscreteSeekBar
+        android:id="@+id/slider_2"
+        android:layout_width="350dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="30dp"
+        app:DiscreteSeekBar_maxValue="100"
+        app:DiscreteSeekBar_minValue="-100"
+        app:DiscreteSeekBar_sectionCount="4"
+        app:DiscreteSeekBar_thumbColor="@color/colorRed100"
+        app:DiscreteSeekBar_thumbDefaultSize="30dp"
+        app:DiscreteSeekBar_thumbPressedSize="36dp"
+        app:DiscreteSeekBar_tickMarkDrawable="@drawable/tickmark"
+        app:DiscreteSeekBar_tickMarkTextColor="@color/colorBlack"
+        app:DiscreteSeekBar_tickMarkTextSize="12sp"
+        app:DiscreteSeekBar_tickMarkTopMargin="18dp"
+        app:DiscreteSeekBar_trackColor="@color/colorBlueGrey900"
+        app:DiscreteSeekBar_trackWidth="1dp"
+        app:DiscreteSeekBar_value="0" />
+
+    <!-- no TickMarkText -->
+    <io.github.stack07142.kotlindiscreteslider.DiscreteSeekBar
+        android:id="@+id/slider_3"
+        android:layout_width="350dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="30dp"
+        app:DiscreteSeekBar_maxValue="400"
+        app:DiscreteSeekBar_minValue="-400"
+        app:DiscreteSeekBar_sectionCount="4"
+        app:DiscreteSeekBar_thumbColor="@color/colorIndigo800"
+        app:DiscreteSeekBar_thumbDefaultSize="16dp"
+        app:DiscreteSeekBar_thumbPressedSize="24dp"
+        app:DiscreteSeekBar_tickMarkDrawable="@drawable/tickmark"
+        app:DiscreteSeekBar_trackColor="@color/colorBlueGrey900"
+        app:DiscreteSeekBar_trackTouchEnable="true"
+        app:DiscreteSeekBar_trackWidth="1dp"
+        app:DiscreteSeekBar_value="200" />
+
+    <!-- noTickMark -->
+    <io.github.stack07142.kotlindiscreteslider.DiscreteSeekBar
+        android:id="@+id/slider_4"
+        android:layout_width="350dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="30dp"
+        app:DiscreteSeekBar_maxValue="400"
+        app:DiscreteSeekBar_minValue="-400"
+        app:DiscreteSeekBar_sectionCount="4"
+        app:DiscreteSeekBar_thumbColor="@color/colorPink200"
+        app:DiscreteSeekBar_thumbDefaultSize="16dp"
+        app:DiscreteSeekBar_thumbPressedSize="24dp"
+        app:DiscreteSeekBar_tickMarkTextColor="@color/colorBlack"
+        app:DiscreteSeekBar_tickMarkTextSize="12sp"
+        app:DiscreteSeekBar_tickMarkTopMargin="18dp"
+        app:DiscreteSeekBar_trackColor="@color/colorBlueGrey900"
+        app:DiscreteSeekBar_trackTouchEnable="true"
+        app:DiscreteSeekBar_trackWidth="1dp"
+        app:DiscreteSeekBar_value="-400" />
+
+    <io.github.stack07142.kotlindiscreteslider.DiscreteSeekBar
+        android:id="@+id/slider_5"
+        android:layout_width="350dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="30dp"
+        app:DiscreteSeekBar_maxValue="400"
+        app:DiscreteSeekBar_minValue="-400"
+        app:DiscreteSeekBar_sectionCount="10"
+        app:DiscreteSeekBar_thumbColor="@color/colorPurple500"
+        app:DiscreteSeekBar_thumbDefaultSize="24dp"
+        app:DiscreteSeekBar_thumbPressedSize="30dp"
+        app:DiscreteSeekBar_tickMarkDrawable="@drawable/tickmark"
+        app:DiscreteSeekBar_tickMarkTextColor="@color/colorBlack"
+        app:DiscreteSeekBar_tickMarkTextSize="12sp"
+        app:DiscreteSeekBar_tickMarkTopMargin="18dp"
+        app:DiscreteSeekBar_trackColor="@color/colorBlueGrey900"
+        app:DiscreteSeekBar_trackTouchEnable="true"
+        app:DiscreteSeekBar_trackWidth="1dp"
+        app:DiscreteSeekBar_value="0" />
+
+</LinearLayout>
