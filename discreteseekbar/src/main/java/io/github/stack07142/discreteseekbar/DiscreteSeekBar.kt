@@ -16,12 +16,11 @@ import android.util.TypedValue
 import android.view.MotionEvent
 import android.view.View
 import io.github.stack07142.discreteseekbar.R
+import kotlin.math.round
 
 /**
  * 1. 빌더
  * 2. TickMarkText 자동 생성 기능 추가
- * 3. 5번에서 오른쪽편 잘 동작하지 않는 현상 value가 160이어야 하는데 80으로 계산됨. value를 float으로 변경할 것
- *
  *
  * Kotlin
  * !!
@@ -335,10 +334,10 @@ class DiscreteSeekBar @JvmOverloads constructor(context: Context, attrs: Attribu
 
         return if (touchedX - x <= trackSectionLength / 2f) {
             Log.d("todd", "getThumbCenterX, x = $x")
-            x
+            round(x)
         } else {
             Log.d("todd", "getThumbCenterX, x = " + (x + trackSectionLength))
-            x + trackSectionLength
+            round(x + trackSectionLength)
         }
     }
 
