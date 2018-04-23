@@ -1,4 +1,4 @@
-package io.github.stack07142.kotlindiscreteslider
+package io.github.stack07142.discreteseekbar
 
 import android.animation.Animator
 import android.animation.AnimatorListenerAdapter
@@ -15,7 +15,6 @@ import android.util.SparseArray
 import android.util.TypedValue
 import android.view.MotionEvent
 import android.view.View
-import io.github.stack07142.discreteseekbar.R
 import kotlin.math.round
 
 /**
@@ -190,7 +189,7 @@ class DiscreteSeekBar @JvmOverloads constructor(context: Context, attrs: Attribu
 
         // 4. Draw thumb
         if (!isThumbDragging) {
-            thumbCenterX = round(trackStartX + trackSectionLength * valueIndex)
+            thumbCenterX = trackStartX + trackSectionLength * valueIndex
         }
 
         Log.d("todd", "onDraw() - isThumbDragging=$isThumbDragging, thumbCenterX=$thumbCenterX")
@@ -335,10 +334,10 @@ class DiscreteSeekBar @JvmOverloads constructor(context: Context, attrs: Attribu
 
         return if (touchedX - x <= trackSectionLength / 2f) {
             Log.d("todd", "getThumbCenterX, x = $x")
-            round(x)
+            x
         } else {
             Log.d("todd", "getThumbCenterX, x = " + (x + trackSectionLength))
-            round(x + trackSectionLength)
+            x + trackSectionLength
         }
     }
 

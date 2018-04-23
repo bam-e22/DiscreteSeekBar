@@ -4,7 +4,7 @@ import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.util.SparseArray
 import android.widget.Toast
-import io.github.stack07142.kotlindiscreteslider.DiscreteSeekBar
+import io.github.stack07142.discreteseekbar.DiscreteSeekBar
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {

@@ -9,7 +9,7 @@
     tools:context=".MainActivity">
 
     <!-- enable track touch -->
-    <io.github.stack07142.kotlindiscreteslider.DiscreteSeekBar
+    <io.github.stack07142.discreteseekbar.DiscreteSeekBar
         android:id="@+id/slider_1"
         android:layout_width="300dp"
         android:layout_height="wrap_content"
@@ -30,7 +30,7 @@
         app:DiscreteSeekBar_value="0" />
 
     <!-- disable track touch -->
-    <io.github.stack07142.kotlindiscreteslider.DiscreteSeekBar
+    <io.github.stack07142.discreteseekbar.DiscreteSeekBar
         android:id="@+id/slider_2"
         android:layout_width="350dp"
         android:layout_height="wrap_content"
@@ -50,7 +50,7 @@
         app:DiscreteSeekBar_value="0" />
 
     <!-- no TickMarkText -->
-    <io.github.stack07142.kotlindiscreteslider.DiscreteSeekBar
+    <io.github.stack07142.discreteseekbar.DiscreteSeekBar
         android:id="@+id/slider_3"
         android:layout_width="350dp"
         android:layout_height="wrap_content"
@@ -68,7 +68,7 @@
         app:DiscreteSeekBar_value="200" />
 
     <!-- noTickMark -->
-    <io.github.stack07142.kotlindiscreteslider.DiscreteSeekBar
+    <io.github.stack07142.discreteseekbar.DiscreteSeekBar
         android:id="@+id/slider_4"
         android:layout_width="350dp"
         android:layout_height="wrap_content"
@@ -87,7 +87,7 @@
         app:DiscreteSeekBar_trackWidth="1dp"
         app:DiscreteSeekBar_value="-400" />
 
-    <io.github.stack07142.kotlindiscreteslider.DiscreteSeekBar
+    <io.github.stack07142.discreteseekbar.DiscreteSeekBar
         android:id="@+id/slider_5"
         android:layout_width="350dp"
         android:layout_height="wrap_content"
