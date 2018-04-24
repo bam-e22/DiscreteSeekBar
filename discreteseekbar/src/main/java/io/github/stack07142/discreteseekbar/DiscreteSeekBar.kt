@@ -30,31 +30,31 @@ import kotlin.math.round
 class DiscreteSeekBar @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0) : View(context, attrs, defStyleAttr) {
 
     // value
-    private val minValue: Int
-    private val maxValue: Int
-    private val unitValue: Int
-    private val sectionCount: Int
+    private var minValue: Int
+    private var maxValue: Int
+    private var unitValue: Int
+    private var sectionCount: Int
     private var value: Int = 0
-    private val valueIndex: Int
+    private var valueIndex: Int
         get() = (value - minValue) / unitValue
 
     // track
-    private val trackWidth: Int
-    private val trackColor: Int
+    private var trackWidth: Int
+    private var trackColor: Int
     private var trackLength: Float = 0f
     private var trackSectionLength: Float = 0f
 
     // tickMark
     private var tickMarkTextArray = SparseArray<String>()
-    private val tickMarkDrawable: Drawable?
-    private val tickMarkTextTopMargin: Int
-    private val tickMarkTextSize: Int
-    private val tickMarkTextColor: Int
+    private var tickMarkDrawable: Drawable?
+    private var tickMarkTextTopMargin: Int
+    private var tickMarkTextSize: Int
+    private var tickMarkTextColor: Int
 
     // thumb
-    private val thumbDefaultRadius: Int
-    private val thumbPressedRadius: Int
-    private val thumbColor: Int
+    private var thumbDefaultRadius: Int
+    private var thumbPressedRadius: Int
+    private var thumbColor: Int
 
     // coordinate
     private var thumbCenterX: Float = 0f
@@ -65,11 +65,27 @@ class DiscreteSeekBar @JvmOverloads constructor(context: Context, attrs: Attribu
     // touch event
     private var isThumbDragging: Boolean = false
     private var onValueChangedListener: OnValueChangedListener? = null
-    private val trackTouchEnable: Boolean
+    private var trackTouchEnable: Boolean
 
     // Paint
     private val paint: Paint
     private val tickMarkTextRect: Rect
+
+    // Builder
+    private var configBuilder: ConfigBuilder? = null
+
+    /*
+     * Constants
+     */
+
+    companion object {
+        private const val TOUCH_AREA_FACTOR = 1.7f
+        private const val ANIM_DURATION = 300L
+    }
+
+    /*
+     * Constructor
+     */
 
     init {
 
@@ -81,6 +97,7 @@ class DiscreteSeekBar @JvmOverloads constructor(context: Context, attrs: Attribu
         this.sectionCount = typedArray.getInteger(R.styleable.DiscreteSeekBar_DiscreteSeekBar_sectionCount, 0)
         this.unitValue = (maxValue - minValue) / sectionCount
         this.value = typedArray.getInteger(R.styleable.DiscreteSeekBar_DiscreteSeekBar_value, 0)
+        this.valueIndex = (value - minValue) / unitValue
 
         // track
         this.trackWidth = typedArray.getDimensionPixelSize(R.styleable.DiscreteSeekBar_DiscreteSeekBar_trackWidth, dp2px(1))
@@ -108,6 +125,10 @@ class DiscreteSeekBar @JvmOverloads constructor(context: Context, attrs: Attribu
 
         tickMarkTextRect = Rect()
     }
+
+    /*
+     * Measure & Draw
+     */
 
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec)
@@ -147,21 +168,19 @@ class DiscreteSeekBar @JvmOverloads constructor(context: Context, attrs: Attribu
         paint.textSize = tickMarkTextSize.toFloat()
 
         // 2. Draw tickMarks
-        if (tickMarkDrawable != null) {
-            val tickMarkWidth = tickMarkDrawable.intrinsicWidth
-            val tickMarkHeight = tickMarkDrawable.intrinsicHeight
-            val tickMarkHalfWidth = if (tickMarkWidth >= 0) tickMarkWidth / 2 else 1
-            val tickMarkHalfHeight = if (tickMarkHeight >= 0) tickMarkHeight / 2 else 1
+        val tickMarkWidth = tickMarkDrawable?.intrinsicWidth
+        val tickMarkHeight = tickMarkDrawable?.intrinsicHeight
+        val tickMarkHalfWidth = tickMarkWidth?.div(2)
+        val tickMarkHalfHeight = tickMarkHeight?.div(2)
 
-            tickMarkDrawable.setBounds(-tickMarkHalfWidth, -tickMarkHalfHeight, tickMarkHalfWidth, tickMarkHalfHeight)
-        }
+        tickMarkDrawable?.setBounds(tickMarkHalfWidth?.unaryMinus() ?: 0, tickMarkHalfHeight?.unaryMinus() ?: 0, tickMarkHalfWidth ?: 0, tickMarkHalfHeight ?: 0)
 
         // 3. Draw tickMarkText
         var i = minValue
         while (i <= maxValue) {
 
-            if (i != value && tickMarkDrawable != null) {
-                tickMarkDrawable.draw(canvas)
+            if (i != value) {
+                tickMarkDrawable?.draw(canvas)
             }
 
             if (tickMarkTextArray.get(i, null) != null) {
@@ -195,19 +214,6 @@ class DiscreteSeekBar @JvmOverloads constructor(context: Context, attrs: Attribu
         Log.d("todd", "onDraw() - isThumbDragging=$isThumbDragging, thumbCenterX=$thumbCenterX")
         paint.color = thumbColor
         canvas.drawCircle(thumbCenterX - trackStartX, 0f, (if (isThumbDragging) thumbPressedRadius else thumbDefaultRadius).toFloat(), paint)
-    }
-
-    fun setValue(value: Int) {
-        this.value = value
-
-        postInvalidate()
-    }
-
-    fun setTickMarkTextArray(tickMarkTextArray: SparseArray<String>) {
-        this.tickMarkTextArray = tickMarkTextArray
-
-        requestLayout()
-        invalidate()
     }
 
     override fun performClick(): Boolean {
@@ -287,6 +293,10 @@ class DiscreteSeekBar @JvmOverloads constructor(context: Context, attrs: Attribu
         return isThumbDragging || super.onTouchEvent(event)
     }
 
+    /*
+     * Detect & Calculate
+     */
+
     private fun detectThumbIsTouched(event: MotionEvent): Boolean {
         if (!isEnabled) {
             return false
@@ -346,6 +356,10 @@ class DiscreteSeekBar @JvmOverloads constructor(context: Context, attrs: Attribu
         Log.d("todd", "updateValueWithThumbCenterX, value = $value")
     }
 
+    /*
+     * Events
+     */
+
     interface OnValueChangedListener {
         fun onValueChanged(value: Int)
     }
@@ -355,10 +369,12 @@ class DiscreteSeekBar @JvmOverloads constructor(context: Context, attrs: Attribu
     }
 
     private fun notifyValueChanged(value: Int) {
-        if (this.onValueChangedListener != null) {
-            this.onValueChangedListener!!.onValueChanged(value)
-        }
+        this.onValueChangedListener?.onValueChanged(value)
     }
+
+    /*
+     * Utils
+     */
 
     private fun dp2px(dp: Int): Int {
         return TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp.toFloat(),
@@ -374,8 +390,34 @@ class DiscreteSeekBar @JvmOverloads constructor(context: Context, attrs: Attribu
         return f * f
     }
 
-    companion object {
-        private const val TOUCH_AREA_FACTOR = 1.7f
-        private const val ANIM_DURATION = 300L
+
+    /*
+     * Builder
+     */
+
+    fun setValue(value: Int) {
+        this.value = value
+
+        postInvalidate()
+    }
+
+    fun setTickMarkTextArray(tickMarkTextArray: SparseArray<String>) {
+        this.tickMarkTextArray = tickMarkTextArray
+
+        requestLayout()
+        invalidate()
+    }
+
+    fun getConfigBuilder(): ConfigBuilder? {
+        if (configBuilder == null) {
+            configBuilder = ConfigBuilder(this)
+        }
+
+        configBuilder!!.minValue = this.minValue
+        configBuilder!!.maxValue = this.maxValue
+
+
+
+        return configBuilder
     }
 }
