@@ -5,15 +5,20 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:padding="24dp"
+    android:padding="12dp"
     tools:context=".MainActivity">
 
-    <!-- enable track touch -->
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:text="Default"
+        android:textStyle="bold|italic" />
+
     <io.github.stack07142.discreteseekbar.DiscreteSeekBar
         android:id="@+id/slider_1"
         android:layout_width="300dp"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="30dp"
         app:DiscreteSeekBar_maxValue="400"
         app:DiscreteSeekBar_minValue="-400"
         app:DiscreteSeekBar_sectionCount="4"
@@ -29,15 +34,18 @@
         app:DiscreteSeekBar_trackWidth="1dp"
         app:DiscreteSeekBar_value="0" />
 
-    <!-- disable track touch -->
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:layout_marginBottom="8dp"
+        android:text="Disable track touch"
+        android:textStyle="bold|italic" />
+
     <io.github.stack07142.discreteseekbar.DiscreteSeekBar
         android:id="@+id/slider_2"
         android:layout_width="350dp"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="30dp"
-        app:DiscreteSeekBar_maxValue="100"
-        app:DiscreteSeekBar_minValue="-100"
-        app:DiscreteSeekBar_sectionCount="4"
         app:DiscreteSeekBar_thumbColor="@color/colorRed100"
         app:DiscreteSeekBar_thumbDefaultSize="30dp"
         app:DiscreteSeekBar_thumbPressedSize="36dp"
@@ -46,17 +54,22 @@
         app:DiscreteSeekBar_tickMarkTextSize="12sp"
         app:DiscreteSeekBar_tickMarkTopMargin="18dp"
         app:DiscreteSeekBar_trackColor="@color/colorBlueGrey900"
-        app:DiscreteSeekBar_trackWidth="1dp"
-        app:DiscreteSeekBar_value="0" />
+        app:DiscreteSeekBar_trackWidth="1dp" />
 
-    <!-- no TickMarkText -->
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:layout_marginBottom="8dp"
+        android:text="Default"
+        android:textStyle="bold|italic" />
+
     <io.github.stack07142.discreteseekbar.DiscreteSeekBar
         android:id="@+id/slider_3"
         android:layout_width="350dp"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="30dp"
-        app:DiscreteSeekBar_maxValue="400"
-        app:DiscreteSeekBar_minValue="-400"
+        app:DiscreteSeekBar_maxValue="200"
+        app:DiscreteSeekBar_minValue="-200"
         app:DiscreteSeekBar_sectionCount="4"
         app:DiscreteSeekBar_thumbColor="@color/colorIndigo800"
         app:DiscreteSeekBar_thumbDefaultSize="16dp"
@@ -65,14 +78,20 @@
         app:DiscreteSeekBar_trackColor="@color/colorBlueGrey900"
         app:DiscreteSeekBar_trackTouchEnable="true"
         app:DiscreteSeekBar_trackWidth="1dp"
-        app:DiscreteSeekBar_value="200" />
+        app:DiscreteSeekBar_value="100" />
 
-    <!-- noTickMark -->
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:layout_marginBottom="8dp"
+        android:text="Default"
+        android:textStyle="bold|italic" />
+
     <io.github.stack07142.discreteseekbar.DiscreteSeekBar
         android:id="@+id/slider_4"
         android:layout_width="350dp"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="30dp"
         app:DiscreteSeekBar_maxValue="400"
         app:DiscreteSeekBar_minValue="-400"
         app:DiscreteSeekBar_sectionCount="4"
@@ -87,11 +106,18 @@
         app:DiscreteSeekBar_trackWidth="1dp"
         app:DiscreteSeekBar_value="-400" />
 
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:layout_marginBottom="8dp"
+        android:text="Default"
+        android:textStyle="bold|italic" />
+
     <io.github.stack07142.discreteseekbar.DiscreteSeekBar
         android:id="@+id/slider_5"
         android:layout_width="350dp"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="30dp"
         app:DiscreteSeekBar_maxValue="400"
         app:DiscreteSeekBar_minValue="-400"
         app:DiscreteSeekBar_sectionCount="10"

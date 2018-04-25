@@ -3,10 +3,10 @@
     <declare-styleable name="DiscreteSeekBar">
 
         <!-- Value -->
-        <attr name="DiscreteSeekBar_value" format="integer|reference" />
-        <attr name="DiscreteSeekBar_maxValue" format="integer|reference" />
         <attr name="DiscreteSeekBar_minValue" format="integer|reference" />
+        <attr name="DiscreteSeekBar_maxValue" format="integer|reference" />
         <attr name="DiscreteSeekBar_sectionCount" format="integer|reference" />
+        <attr name="DiscreteSeekBar_value" format="integer|reference" />
 
         <!-- Track -->
         <attr name="DiscreteSeekBar_trackWidth" format="dimension|reference" />

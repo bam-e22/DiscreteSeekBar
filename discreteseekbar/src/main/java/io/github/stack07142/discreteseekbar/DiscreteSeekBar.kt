@@ -18,12 +18,11 @@ import android.view.View
 import kotlin.math.round
 
 /**
- * 1. 빌더
- * 2. TickMarkText 자동 생성 기능 추가
+ * TickMarkText 자동 생성 기능 추가
  * value float으로
+ * 다양한 ConfigBuilder 함수 사용
  *
  * Kotlin
- * !!
  * companion object 상수
  * get() 함수
  */
@@ -45,11 +44,11 @@ class DiscreteSeekBar @JvmOverloads constructor(context: Context, attrs: Attribu
     private var trackSectionLength: Float = 0f
 
     // tickMark
-    private var tickMarkTextArray = SparseArray<String>()
-    private var tickMarkDrawable: Drawable?
     private var tickMarkTextTopMargin: Int
     private var tickMarkTextSize: Int
     private var tickMarkTextColor: Int
+    private var tickMarkDrawable: Drawable?
+    private var tickMarkTextArray = SparseArray<String>()
 
     // thumb
     private var thumbDefaultRadius: Int
@@ -63,9 +62,9 @@ class DiscreteSeekBar @JvmOverloads constructor(context: Context, attrs: Attribu
     private var trackEndX: Float = 0f
 
     // touch event
-    private var isThumbDragging: Boolean = false
-    private var onValueChangedListener: OnValueChangedListener? = null
     private var trackTouchEnable: Boolean
+    private var onValueChangedListener: OnValueChangedListener? = null
+    private var isThumbDragging: Boolean = false
 
     // Paint
     private val paint: Paint
@@ -93,8 +92,8 @@ class DiscreteSeekBar @JvmOverloads constructor(context: Context, attrs: Attribu
 
         // value
         this.maxValue = typedArray.getInteger(R.styleable.DiscreteSeekBar_DiscreteSeekBar_maxValue, 0)
-        this.minValue = typedArray.getInteger(R.styleable.DiscreteSeekBar_DiscreteSeekBar_minValue, 0)
-        this.sectionCount = typedArray.getInteger(R.styleable.DiscreteSeekBar_DiscreteSeekBar_sectionCount, 0)
+        this.minValue = typedArray.getInteger(R.styleable.DiscreteSeekBar_DiscreteSeekBar_minValue, 100)
+        this.sectionCount = typedArray.getInteger(R.styleable.DiscreteSeekBar_DiscreteSeekBar_sectionCount, 2)
         this.unitValue = (maxValue - minValue) / sectionCount
         this.value = typedArray.getInteger(R.styleable.DiscreteSeekBar_DiscreteSeekBar_value, 0)
         this.valueIndex = (value - minValue) / unitValue
@@ -104,9 +103,9 @@ class DiscreteSeekBar @JvmOverloads constructor(context: Context, attrs: Attribu
         this.trackColor = typedArray.getColor(R.styleable.DiscreteSeekBar_DiscreteSeekBar_trackColor, ContextCompat.getColor(context, R.color.colorGray))
 
         // tickMark
+        this.tickMarkTextTopMargin = typedArray.getDimensionPixelSize(R.styleable.DiscreteSeekBar_DiscreteSeekBar_tickMarkTopMargin, dp2px(19))
         this.tickMarkTextSize = typedArray.getDimensionPixelSize(R.styleable.DiscreteSeekBar_DiscreteSeekBar_tickMarkTextSize, sp2px(12))
         this.tickMarkTextColor = typedArray.getColor(R.styleable.DiscreteSeekBar_DiscreteSeekBar_tickMarkTextColor, ContextCompat.getColor(context, R.color.colorBlack))
-        this.tickMarkTextTopMargin = typedArray.getDimensionPixelSize(R.styleable.DiscreteSeekBar_DiscreteSeekBar_tickMarkTopMargin, dp2px(19))
         this.tickMarkDrawable = typedArray.getDrawable(R.styleable.DiscreteSeekBar_DiscreteSeekBar_tickMarkDrawable)
 
         // thumb
@@ -115,7 +114,7 @@ class DiscreteSeekBar @JvmOverloads constructor(context: Context, attrs: Attribu
         this.thumbColor = typedArray.getColor(R.styleable.DiscreteSeekBar_DiscreteSeekBar_thumbColor, ContextCompat.getColor(context, R.color.colorRed100))
 
         // touch event
-        this.trackTouchEnable = typedArray.getBoolean(R.styleable.DiscreteSeekBar_DiscreteSeekBar_trackTouchEnable, false)
+        this.trackTouchEnable = typedArray.getBoolean(R.styleable.DiscreteSeekBar_DiscreteSeekBar_trackTouchEnable, true)
 
         typedArray.recycle()
 
@@ -143,7 +142,7 @@ class DiscreteSeekBar @JvmOverloads constructor(context: Context, attrs: Attribu
         val measuredWidth = View.MeasureSpec.getSize(widthMeasureSpec)
         val measuredHeight = View.MeasureSpec.getSize(heightMeasureSpec)
 
-        val layoutHeight = thumbPressedRadius + tickMarkTextTopMargin + sp2px(tickMarkTextSize)
+        val layoutHeight = thumbPressedRadius + tickMarkTextTopMargin + sp2px(tickMarkTextSize) * 2
 
         setMeasuredDimension(measuredWidth, if (heightMode == View.MeasureSpec.EXACTLY) measuredHeight else layoutHeight)
     }
@@ -173,7 +172,9 @@ class DiscreteSeekBar @JvmOverloads constructor(context: Context, attrs: Attribu
         val tickMarkHalfWidth = tickMarkWidth?.div(2)
         val tickMarkHalfHeight = tickMarkHeight?.div(2)
 
-        tickMarkDrawable?.setBounds(tickMarkHalfWidth?.unaryMinus() ?: 0, tickMarkHalfHeight?.unaryMinus() ?: 0, tickMarkHalfWidth ?: 0, tickMarkHalfHeight ?: 0)
+        tickMarkDrawable?.setBounds(tickMarkHalfWidth?.unaryMinus()
+                ?: 0, tickMarkHalfHeight?.unaryMinus() ?: 0, tickMarkHalfWidth
+                ?: 0, tickMarkHalfHeight ?: 0)
 
         // 3. Draw tickMarkText
         var i = minValue
@@ -364,10 +365,6 @@ class DiscreteSeekBar @JvmOverloads constructor(context: Context, attrs: Attribu
         fun onValueChanged(value: Int)
     }
 
-    fun setOnValueChangedListener(onValueChangedListener: OnValueChangedListener) {
-        this.onValueChangedListener = onValueChangedListener
-    }
-
     private fun notifyValueChanged(value: Int) {
         this.onValueChangedListener?.onValueChanged(value)
     }
@@ -376,12 +373,12 @@ class DiscreteSeekBar @JvmOverloads constructor(context: Context, attrs: Attribu
      * Utils
      */
 
-    private fun dp2px(dp: Int): Int {
+    fun dp2px(dp: Int): Int {
         return TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp.toFloat(),
                 Resources.getSystem().displayMetrics).toInt()
     }
 
-    private fun sp2px(sp: Int): Int {
+    fun sp2px(sp: Int): Int {
         return TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP, sp.toFloat(),
                 Resources.getSystem().displayMetrics).toInt()
     }
@@ -389,7 +386,6 @@ class DiscreteSeekBar @JvmOverloads constructor(context: Context, attrs: Attribu
     private fun squareOf(f: Float): Float {
         return f * f
     }
-
 
     /*
      * Builder
@@ -401,23 +397,61 @@ class DiscreteSeekBar @JvmOverloads constructor(context: Context, attrs: Attribu
         postInvalidate()
     }
 
-    fun setTickMarkTextArray(tickMarkTextArray: SparseArray<String>) {
-        this.tickMarkTextArray = tickMarkTextArray
-
-        requestLayout()
-        invalidate()
-    }
-
-    fun getConfigBuilder(): ConfigBuilder? {
+    fun getConfigBuilder(): ConfigBuilder {
         if (configBuilder == null) {
             configBuilder = ConfigBuilder(this)
         }
 
-        configBuilder!!.minValue = this.minValue
-        configBuilder!!.maxValue = this.maxValue
+        configBuilder?.minValue = this.minValue
+        configBuilder?.maxValue = this.maxValue
+        configBuilder?.sectionCount = this.sectionCount
+        configBuilder?.value = this.value
+
+        configBuilder?.trackWidth = this.trackWidth
+        configBuilder?.trackColor = this.trackColor
+
+        configBuilder?.tickMarkTextTopMargin = this.tickMarkTextTopMargin
+        configBuilder?.tickMarkTextSize = this.tickMarkTextSize
+        configBuilder?.tickMarkTextColor = this.tickMarkTextColor
+        configBuilder?.tickMarkDrawable = this.tickMarkDrawable
+        configBuilder?.tickMarkTextArray = this.tickMarkTextArray
+
+        configBuilder?.thumbDefaultRadius = this.thumbDefaultRadius
+        configBuilder?.thumbPressedRadius = this.thumbPressedRadius
+        configBuilder?.thumbColor = this.thumbColor
+
+        configBuilder?.trackTouchEnable = this.trackTouchEnable
+        configBuilder?.onValueChangedListener = this.onValueChangedListener
 
 
+        return configBuilder ?: ConfigBuilder(this)
+    }
 
-        return configBuilder
+    fun config(configBuilder: ConfigBuilder) {
+
+        this.minValue = configBuilder.minValue
+        this.maxValue = configBuilder.maxValue
+        this.sectionCount = configBuilder.sectionCount
+        this.value = configBuilder.value
+        this.unitValue = (maxValue - minValue) / sectionCount
+        this.valueIndex = (value - minValue) / unitValue
+
+        this.trackWidth = configBuilder.trackWidth
+        this.trackColor = configBuilder.trackColor
+
+        this.tickMarkTextTopMargin = configBuilder.tickMarkTextTopMargin
+        this.tickMarkTextSize = configBuilder.tickMarkTextSize
+        this.tickMarkTextColor = configBuilder.tickMarkTextColor
+        this.tickMarkDrawable = configBuilder.tickMarkDrawable
+        this.tickMarkTextArray = configBuilder.tickMarkTextArray
+
+        this.thumbDefaultRadius = configBuilder.thumbDefaultRadius
+        this.thumbPressedRadius = configBuilder.thumbPressedRadius
+        this.thumbColor = configBuilder.thumbColor
+
+        this.trackTouchEnable = configBuilder.trackTouchEnable
+        this.onValueChangedListener = configBuilder.onValueChangedListener
+
+        requestLayout()
     }
 }
