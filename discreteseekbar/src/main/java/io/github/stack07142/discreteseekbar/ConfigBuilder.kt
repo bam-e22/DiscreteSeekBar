@@ -32,6 +32,8 @@ class ConfigBuilder(private val discreteSeekBar: DiscreteSeekBar) {
     // touch event
     var onValueChangedListener: DiscreteSeekBar.OnValueChangedListener? = null
     var trackTouchEnable: Boolean = false
+    var touchAreaFactor: Float = 1.7f
+    var animDuration: Long = 300L
 
     fun build() = discreteSeekBar.config(this)
 
@@ -112,6 +114,16 @@ class ConfigBuilder(private val discreteSeekBar: DiscreteSeekBar) {
 
     fun setTrackTouchEnable(trackTouchEnable: Boolean): ConfigBuilder {
         this.trackTouchEnable = trackTouchEnable
+        return this
+    }
+
+    fun setTouchAreaFactor(factor: Float): ConfigBuilder {
+        this.touchAreaFactor = factor
+        return this
+    }
+
+    fun setAnimDuration(duration: Long): ConfigBuilder {
+        this.animDuration = duration
         return this
     }
 }

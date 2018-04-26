@@ -61,6 +61,8 @@ class DiscreteSeekBar @JvmOverloads constructor(context: Context, attrs: Attribu
     private var trackTouchEnable: Boolean
     private var onValueChangedListener: OnValueChangedListener? = null
     private var isThumbDragging: Boolean = false
+    private var touchAreaFactor: Float = 1.7f
+    private var animDuration: Long = 300L
 
     // Paint
     private val paint: Paint
@@ -70,18 +72,8 @@ class DiscreteSeekBar @JvmOverloads constructor(context: Context, attrs: Attribu
     private var configBuilder: ConfigBuilder? = null
 
     /*
-     * Constants
-     */
-
-    companion object {
-        private const val TOUCH_AREA_FACTOR = 1.7f
-        private const val ANIM_DURATION = 300L
-    }
-
-    /*
      * Constructor
      */
-
     init {
 
         val typedArray = context.obtainStyledAttributes(attrs, R.styleable.DiscreteSeekBar, defStyleAttr, 0)
@@ -272,7 +264,7 @@ class DiscreteSeekBar @JvmOverloads constructor(context: Context, attrs: Attribu
 
                 if (isThumbDragging) {
                     animate()
-                            .setDuration(ANIM_DURATION)
+                            .setDuration(animDuration)
                             .setListener(object : AnimatorListenerAdapter() {
                                 override fun onAnimationCancel(animation: Animator) {
                                     isThumbDragging = false
@@ -305,7 +297,7 @@ class DiscreteSeekBar @JvmOverloads constructor(context: Context, attrs: Attribu
         val diffX = event.x - thumbX
         val diffY = event.y - thumbY
 
-        val thumbTouchRadius = thumbPressedRadius * TOUCH_AREA_FACTOR
+        val thumbTouchRadius = thumbPressedRadius * touchAreaFactor
 
         return squareOf(diffX) + squareOf(diffY) <= squareOf(thumbTouchRadius)
     }
@@ -418,7 +410,8 @@ class DiscreteSeekBar @JvmOverloads constructor(context: Context, attrs: Attribu
 
         configBuilder?.trackTouchEnable = this.trackTouchEnable
         configBuilder?.onValueChangedListener = this.onValueChangedListener
-
+        configBuilder?.touchAreaFactor = this.touchAreaFactor
+        configBuilder?.animDuration = this.animDuration
 
         return configBuilder ?: ConfigBuilder(this)
     }
@@ -447,6 +440,8 @@ class DiscreteSeekBar @JvmOverloads constructor(context: Context, attrs: Attribu
 
         this.trackTouchEnable = configBuilder.trackTouchEnable
         this.onValueChangedListener = configBuilder.onValueChangedListener
+        this.touchAreaFactor = configBuilder.touchAreaFactor
+        this.animDuration = configBuilder.animDuration
 
         requestLayout()
     }
