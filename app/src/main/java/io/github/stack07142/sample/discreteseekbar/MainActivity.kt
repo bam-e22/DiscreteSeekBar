@@ -46,6 +46,7 @@ class MainActivity : AppCompatActivity() {
                 .setMaxValue(100)
                 .setValue(-50)
                 .setSectionCount(4)
+                .setThumbColor(R.color.colorPurple500)
                 .setTickMarkTextArray(tickMarkTextArr2)
                 .setOnValueChangedListener(object : DiscreteSeekBar.OnValueChangedListener {
                     override fun onValueChanged(value: Int) {
@@ -65,6 +66,8 @@ class MainActivity : AppCompatActivity() {
         tickMarkTextArr3.append(200, "e")
 
         slider_3.getConfigBuilder()
+                .setThumbDefaultSize(24)
+                .setThumbPressedSize(30)
                 .setTickMarkTextArray(tickMarkTextArr3)
                 .setOnValueChangedListener(object : DiscreteSeekBar.OnValueChangedListener {
                     override fun onValueChanged(value: Int) {
@@ -80,6 +83,7 @@ class MainActivity : AppCompatActivity() {
         tickMarkTextArr4.append(0, "0")
 
         slider_4.getConfigBuilder()
+                .setTrackColor(R.color.colorRed100)
                 .setOnValueChangedListener(object : DiscreteSeekBar.OnValueChangedListener {
                     override fun onValueChanged(value: Int) {
                         Toast.makeText(applicationContext, "value= $value", Toast.LENGTH_SHORT).show()
