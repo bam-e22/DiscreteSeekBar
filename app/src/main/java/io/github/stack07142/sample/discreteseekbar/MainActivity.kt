@@ -79,22 +79,9 @@ class MainActivity : AppCompatActivity() {
         /*
          * slider_4
          */
-        val tickMarkTextArr4 = SparseArray<String>()
-        tickMarkTextArr4.append(0, "0")
-
         slider_4.getConfigBuilder()
+                .setTrackWidth(3)
                 .setTrackColor(R.color.colorRed100)
-                .setOnValueChangedListener(object : DiscreteSeekBar.OnValueChangedListener {
-                    override fun onValueChanged(value: Int) {
-                        Toast.makeText(applicationContext, "value= $value", Toast.LENGTH_SHORT).show()
-                    }
-                })
-                .build()
-
-        /*
-         * slider_5
-         */
-        slider_5.getConfigBuilder()
                 .setOnValueChangedListener(object : DiscreteSeekBar.OnValueChangedListener {
                     override fun onValueChanged(value: Int) {
                         Toast.makeText(applicationContext, "value= $value", Toast.LENGTH_SHORT).show()
