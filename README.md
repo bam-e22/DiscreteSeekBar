@@ -74,7 +74,7 @@ Check out the sample codes for more details. [here](https://github.com/stack0714
 
 ## License
 ```
-Copyright 2017 stack.07142
+Copyright 2017 stack07142
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
