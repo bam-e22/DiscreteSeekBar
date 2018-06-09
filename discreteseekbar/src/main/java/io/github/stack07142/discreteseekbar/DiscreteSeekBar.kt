@@ -10,7 +10,6 @@ import android.graphics.Rect
 import android.graphics.drawable.Drawable
 import android.support.v4.content.ContextCompat
 import android.util.AttributeSet
-import android.util.Log
 import android.util.SparseArray
 import android.util.TypedValue
 import android.view.MotionEvent
@@ -122,8 +121,11 @@ class DiscreteSeekBar @JvmOverloads constructor(context: Context, attrs: Attribu
 
         trackStartX = round((paddingLeft + thumbPressedRadius).toFloat())
         trackEndX = round((measuredWidth - paddingRight - thumbPressedRadius).toFloat())
+
+        trackSectionLength = round((trackEndX - trackStartX) / sectionCount)
+        trackEndX = trackStartX + sectionCount * trackSectionLength
+
         trackLength = trackEndX - trackStartX
-        trackSectionLength = round(trackLength / sectionCount)
 
         val heightMode = View.MeasureSpec.getMode(heightMeasureSpec)
 
@@ -200,7 +202,6 @@ class DiscreteSeekBar @JvmOverloads constructor(context: Context, attrs: Attribu
             thumbCenterX = trackStartX + trackSectionLength * valueIndex
         }
 
-        Log.d("todd", "onDraw() - isThumbDragging=$isThumbDragging, thumbCenterX=$thumbCenterX")
         paint.color = thumbColor
         canvas.drawCircle(thumbCenterX - trackStartX, 0f, (if (isThumbDragging) thumbPressedRadius else thumbDefaultRadius).toFloat(), paint)
     }
@@ -213,7 +214,6 @@ class DiscreteSeekBar @JvmOverloads constructor(context: Context, attrs: Attribu
 
         when (event.actionMasked) {
             MotionEvent.ACTION_DOWN -> {
-                Log.d("todd", "@@@@@@@ACTION_DOWN")
                 performClick()
                 parent.requestDisallowInterceptTouchEvent(true)
 
@@ -237,15 +237,8 @@ class DiscreteSeekBar @JvmOverloads constructor(context: Context, attrs: Attribu
             }
 
             MotionEvent.ACTION_MOVE -> {
-                Log.d("todd", "@@@@@@@ACTION_MOVE, isThumbDragging=$isThumbDragging")
                 if (isThumbDragging) {
                     val x = getThumbCenterX(event.x)
-
-                    Log.d("todd", "\n-------------------\n")
-                    Log.d("todd", "x = $x")
-                    Log.d("todd", "thumbPreCenterX = $thumbPreCenterX")
-                    Log.d("todd", "thumbCenterX = $thumbCenterX")
-                    Log.d("todd", "\n-------------------\n")
 
                     if (x != thumbPreCenterX) {
                         thumbPreCenterX = x
@@ -259,7 +252,6 @@ class DiscreteSeekBar @JvmOverloads constructor(context: Context, attrs: Attribu
             }
 
             MotionEvent.ACTION_UP, MotionEvent.ACTION_CANCEL -> {
-                Log.d("todd", "@@@@@@@ACTION_UP")
                 parent.requestDisallowInterceptTouchEvent(false)
 
                 if (isThumbDragging) {
@@ -332,17 +324,14 @@ class DiscreteSeekBar @JvmOverloads constructor(context: Context, attrs: Attribu
         }
 
         return if (touchedX - x <= trackSectionLength / 2f) {
-            Log.d("todd", "getThumbCenterX, x = $x")
             x
         } else {
-            Log.d("todd", "getThumbCenterX, x = " + (x + trackSectionLength))
             x + trackSectionLength
         }
     }
 
     private fun updateValueWithThumbCenterX() {
         value = minValue + ((thumbCenterX - trackStartX) / trackSectionLength).toInt() * unitValue
-        Log.d("todd", "updateValueWithThumbCenterX, value = $value")
     }
 
     /*
