@@ -35,6 +35,9 @@ class ConfigBuilder(private val discreteSeekBar: DiscreteSeekBar) {
     var touchAreaFactor: Float = 1.7f
     var animDuration: Long = 300L
 
+    // Accessibility
+    var contentDescriptionArray: SparseArray<String> = SparseArray()
+
     fun build() = discreteSeekBar.config(this)
 
     fun setMinValue(minValue: Int): ConfigBuilder {
@@ -89,6 +92,11 @@ class ConfigBuilder(private val discreteSeekBar: DiscreteSeekBar) {
 
     fun setTickMarkTextArray(tickMarkTextArray: SparseArray<String>): ConfigBuilder {
         this.tickMarkTextArray = tickMarkTextArray
+        return this
+    }
+
+    fun setContentDescriptionArray(contentDescriptionArray: SparseArray<String>): ConfigBuilder {
+        this.contentDescriptionArray = contentDescriptionArray
         return this
     }
 

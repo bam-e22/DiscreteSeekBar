@@ -16,6 +16,14 @@ class MainActivity : AppCompatActivity() {
         /*
          * slider_1
          */
+
+        val contentDescriptionArray1 = SparseArray<String>()
+        contentDescriptionArray1.append(-400, "low")
+        contentDescriptionArray1.append(-200, "mid low")
+        contentDescriptionArray1.append(0, "mid")
+        contentDescriptionArray1.append(200, "mid high")
+        contentDescriptionArray1.append(400, "high")
+
         val tickMarkTextArr1 = SparseArray<String>()
         tickMarkTextArr1.append(-400, "low")
         tickMarkTextArr1.append(0, "mid")
@@ -23,6 +31,7 @@ class MainActivity : AppCompatActivity() {
 
         slider_1.getConfigBuilder()
                 .setTickMarkTextArray(tickMarkTextArr1)
+                .setContentDescriptionArray(contentDescriptionArray1)
                 .setOnValueChangedListener(object : DiscreteSeekBar.OnValueChangedListener {
                     override fun onValueChanged(value: Int) {
                         Toast.makeText(applicationContext, "value= $value", Toast.LENGTH_SHORT).show()

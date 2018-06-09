@@ -8,12 +8,17 @@ import android.graphics.Canvas
 import android.graphics.Paint
 import android.graphics.Rect
 import android.graphics.drawable.Drawable
+import android.os.Bundle
 import android.support.v4.content.ContextCompat
+import android.support.v4.view.ViewCompat
+import android.support.v4.view.accessibility.AccessibilityNodeInfoCompat
+import android.support.v4.widget.ExploreByTouchHelper
 import android.util.AttributeSet
 import android.util.SparseArray
 import android.util.TypedValue
 import android.view.MotionEvent
 import android.view.View
+import android.view.accessibility.AccessibilityEvent
 import kotlin.math.round
 
 class DiscreteSeekBar @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0) : View(context, attrs, defStyleAttr) {
@@ -65,10 +70,16 @@ class DiscreteSeekBar @JvmOverloads constructor(context: Context, attrs: Attribu
     // Builder
     private var configBuilder: ConfigBuilder? = null
 
+    // Accessibility
+    private var contentDescriptionArray = SparseArray<String>()
+    private var discreteSeekBarTouchHelper: DiscreteSeekBarTouchHelper
+
     /*
      * Constructor
      */
     init {
+        discreteSeekBarTouchHelper = DiscreteSeekBarTouchHelper(this)
+        ViewCompat.setAccessibilityDelegate(this, discreteSeekBarTouchHelper)
 
         val typedArray = context.obtainStyledAttributes(attrs, R.styleable.DiscreteSeekBar, defStyleAttr, 0)
 
@@ -397,6 +408,8 @@ class DiscreteSeekBar @JvmOverloads constructor(context: Context, attrs: Attribu
         configBuilder?.touchAreaFactor = this.touchAreaFactor
         configBuilder?.animDuration = this.animDuration
 
+        configBuilder?.contentDescriptionArray = this.contentDescriptionArray
+
         return configBuilder ?: ConfigBuilder(this)
     }
 
@@ -427,6 +440,76 @@ class DiscreteSeekBar @JvmOverloads constructor(context: Context, attrs: Attribu
         this.touchAreaFactor = configBuilder.touchAreaFactor
         this.animDuration = configBuilder.animDuration
 
+        this.contentDescriptionArray = configBuilder.contentDescriptionArray
+
         requestLayout()
+    }
+
+    inner class DiscreteSeekBarTouchHelper(host: View) : ExploreByTouchHelper(host) {
+        override fun getVirtualViewAt(x: Float, y: Float): Int {
+            val id = getVirtualViewIdAt(x)
+            return if (id >= 0) {
+                id
+            } else {
+                ExploreByTouchHelper.INVALID_ID
+            }
+        }
+
+        override fun getVisibleVirtualViews(virtualViewIds: MutableList<Int>?) {
+            for (i in 0..sectionCount) {
+                virtualViewIds?.add(i)
+            }
+        }
+
+        override fun onPopulateEventForVirtualView(virtualViewId: Int, event: AccessibilityEvent) {
+            event.contentDescription =getDescriptionByVirtualViewId(virtualViewId)
+        }
+
+        override fun onPopulateNodeForVirtualView(virtualViewId: Int, node: AccessibilityNodeInfoCompat) {
+            node.contentDescription = getDescriptionByVirtualViewId(virtualViewId)
+            node.addAction(AccessibilityNodeInfoCompat.ACTION_CLICK)
+            node.setBoundsInParent(getBoundsByVirtualViewId(virtualViewId))
+        }
+
+        override fun onPerformActionForVirtualView(virtualViewId: Int, action: Int, arguments: Bundle?): Boolean {
+            return false
+        }
+    }
+
+    override fun dispatchHoverEvent(event: MotionEvent?): Boolean {
+        return discreteSeekBarTouchHelper.dispatchHoverEvent(event!!) || super.dispatchHoverEvent(event)
+    }
+
+    private fun getVirtualViewIdAt(x: Float): Int {
+        var pointX = trackStartX
+        val length = trackSectionLength / 4
+
+        var idx = 0
+        for (i in 0..sectionCount) {
+            if (x > pointX - length && x <= pointX + length) {
+                idx = i
+                break
+            }
+            pointX += trackSectionLength
+        }
+        return idx
+    }
+
+    private fun getDescriptionByVirtualViewId(id: Int): CharSequence {
+        return when {
+            contentDescriptionArray.size() <= 0 -> ""
+            id == contentDescriptionArray.indexOfKey(value) -> contentDescriptionArray.get(contentDescriptionArray.keyAt(id)) + ", selected"
+            else -> contentDescriptionArray.get(contentDescriptionArray.keyAt(id))
+        }
+    }
+
+    private fun getBoundsByVirtualViewId(id: Int): Rect {
+        val pointX = trackStartX + id * trackSectionLength
+        val length = trackSectionLength / 4
+        val top = measuredHeight / 2 - thumbPressedRadius
+        val bottom = measuredHeight / 2 + thumbPressedRadius
+        val rect = Rect()
+        rect.set((pointX - length).toInt(), top, (pointX + length).toInt(), bottom)
+        return rect
     }
 }
