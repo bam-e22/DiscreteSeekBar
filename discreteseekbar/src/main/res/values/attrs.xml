@@ -3,28 +3,28 @@
     <declare-styleable name="DiscreteSeekBar">
 
         <!-- Value -->
-        <attr name="attr_minValue" format="integer|reference" />
-        <attr name="attr_maxValue" format="integer|reference" />
-        <attr name="attr_sectionCount" format="integer|reference" />
-        <attr name="attr_value" format="integer|reference" />
+        <attr name="discrete_seekbar_minValue" format="integer|reference" />
+        <attr name="discrete_seekbar_maxValue" format="integer|reference" />
+        <attr name="discrete_seekbar_sectionCount" format="integer|reference" />
+        <attr name="discrete_seekbar_value" format="integer|reference" />
 
         <!-- Track -->
-        <attr name="attr_trackWidth" format="dimension|reference" />
-        <attr name="attr_trackColor" format="integer|reference" />
+        <attr name="discrete_seekbar_trackWidth" format="dimension|reference" />
+        <attr name="discrete_seekbar_trackColor" format="integer|reference" />
 
         <!-- TickMark -->
-        <attr name="attr_tickMarkTopMargin" format="dimension|reference" />
-        <attr name="attr_tickMarkTextSize" format="dimension|reference" />
-        <attr name="attr_tickMarkTextColor" format="integer|reference" />
-        <attr name="attr_tickMarkDrawable" format="reference" />
+        <attr name="discrete_seekbar_tickMarkTopMargin" format="dimension|reference" />
+        <attr name="discrete_seekbar_tickMarkTextSize" format="dimension|reference" />
+        <attr name="discrete_seekbar_tickMarkTextColor" format="integer|reference" />
+        <attr name="discrete_seekbar_tickMarkDrawable" format="reference" />
 
         <!-- Thumb -->
-        <attr name="attr_thumbDefaultSize" format="dimension|reference" />
-        <attr name="attr_thumbPressedSize" format="dimension|reference" />
-        <attr name="attr_thumbColor" format="integer|reference" />
+        <attr name="discrete_seekbar_thumbDefaultSize" format="dimension|reference" />
+        <attr name="discrete_seekbar_thumbPressedSize" format="dimension|reference" />
+        <attr name="discrete_seekbar_thumbColor" format="integer|reference" />
 
         <!-- Touch Event -->
-        <attr name="attr_trackTouchEnable" format="boolean" />
+        <attr name="discrete_seekbar_trackTouchEnable" format="boolean" />
 
     </declare-styleable>
 </resources>

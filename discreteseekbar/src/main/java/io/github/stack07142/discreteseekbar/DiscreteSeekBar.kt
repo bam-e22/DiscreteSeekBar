@@ -16,11 +16,6 @@ import android.view.MotionEvent
 import android.view.View
 import kotlin.math.round
 
-/**
- *
- * Kotlin
- * companion object 상수
- */
 class DiscreteSeekBar @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0) : View(context, attrs, defStyleAttr) {
 
     // value
@@ -78,30 +73,30 @@ class DiscreteSeekBar @JvmOverloads constructor(context: Context, attrs: Attribu
         val typedArray = context.obtainStyledAttributes(attrs, R.styleable.DiscreteSeekBar, defStyleAttr, 0)
 
         // value
-        this.maxValue = typedArray.getInteger(R.styleable.DiscreteSeekBar_attr_maxValue, 0)
-        this.minValue = typedArray.getInteger(R.styleable.DiscreteSeekBar_attr_minValue, 100)
-        this.sectionCount = typedArray.getInteger(R.styleable.DiscreteSeekBar_attr_sectionCount, 2)
+        this.maxValue = typedArray.getInteger(R.styleable.DiscreteSeekBar_discrete_seekbar_maxValue, 0)
+        this.minValue = typedArray.getInteger(R.styleable.DiscreteSeekBar_discrete_seekbar_minValue, 100)
+        this.sectionCount = typedArray.getInteger(R.styleable.DiscreteSeekBar_discrete_seekbar_sectionCount, 2)
         this.unitValue = (maxValue - minValue) / sectionCount
-        this.value = typedArray.getInteger(R.styleable.DiscreteSeekBar_attr_value, 0)
+        this.value = typedArray.getInteger(R.styleable.DiscreteSeekBar_discrete_seekbar_value, 0)
         this.valueIndex = (value - minValue) / unitValue
 
         // track
-        this.trackWidth = typedArray.getDimensionPixelSize(R.styleable.DiscreteSeekBar_attr_trackWidth, dp2px(1))
-        this.trackColor = typedArray.getColor(R.styleable.DiscreteSeekBar_attr_trackColor, ContextCompat.getColor(context, R.color.colorGray))
+        this.trackWidth = typedArray.getDimensionPixelSize(R.styleable.DiscreteSeekBar_discrete_seekbar_trackWidth, dp2px(1))
+        this.trackColor = typedArray.getColor(R.styleable.DiscreteSeekBar_discrete_seekbar_trackColor, ContextCompat.getColor(context, R.color.discrete_seekbar_colorGray))
 
         // tickMark
-        this.tickMarkTextTopMargin = typedArray.getDimensionPixelSize(R.styleable.DiscreteSeekBar_attr_tickMarkTopMargin, dp2px(19))
-        this.tickMarkTextSize = typedArray.getDimensionPixelSize(R.styleable.DiscreteSeekBar_attr_tickMarkTextSize, sp2px(12))
-        this.tickMarkTextColor = typedArray.getColor(R.styleable.DiscreteSeekBar_attr_tickMarkTextColor, ContextCompat.getColor(context, R.color.colorBlack))
-        this.tickMarkDrawable = typedArray.getDrawable(R.styleable.DiscreteSeekBar_attr_tickMarkDrawable)
+        this.tickMarkTextTopMargin = typedArray.getDimensionPixelSize(R.styleable.DiscreteSeekBar_discrete_seekbar_tickMarkTopMargin, dp2px(19))
+        this.tickMarkTextSize = typedArray.getDimensionPixelSize(R.styleable.DiscreteSeekBar_discrete_seekbar_tickMarkTextSize, sp2px(12))
+        this.tickMarkTextColor = typedArray.getColor(R.styleable.DiscreteSeekBar_discrete_seekbar_tickMarkTextColor, ContextCompat.getColor(context, R.color.discrete_seekbar_colorBlack))
+        this.tickMarkDrawable = typedArray.getDrawable(R.styleable.DiscreteSeekBar_discrete_seekbar_tickMarkDrawable)
 
         // thumb
-        this.thumbDefaultRadius = typedArray.getDimensionPixelSize(R.styleable.DiscreteSeekBar_attr_thumbDefaultSize, dp2px(16)) / 2
-        this.thumbPressedRadius = typedArray.getDimensionPixelSize(R.styleable.DiscreteSeekBar_attr_thumbPressedSize, dp2px(24)) / 2
-        this.thumbColor = typedArray.getColor(R.styleable.DiscreteSeekBar_attr_thumbColor, ContextCompat.getColor(context, R.color.colorRed100))
+        this.thumbDefaultRadius = typedArray.getDimensionPixelSize(R.styleable.DiscreteSeekBar_discrete_seekbar_thumbDefaultSize, dp2px(16)) / 2
+        this.thumbPressedRadius = typedArray.getDimensionPixelSize(R.styleable.DiscreteSeekBar_discrete_seekbar_thumbPressedSize, dp2px(24)) / 2
+        this.thumbColor = typedArray.getColor(R.styleable.DiscreteSeekBar_discrete_seekbar_thumbColor, ContextCompat.getColor(context, R.color.discrete_seekbar_colorRed100))
 
         // touch event
-        this.trackTouchEnable = typedArray.getBoolean(R.styleable.DiscreteSeekBar_attr_trackTouchEnable, true)
+        this.trackTouchEnable = typedArray.getBoolean(R.styleable.DiscreteSeekBar_discrete_seekbar_trackTouchEnable, true)
 
         typedArray.recycle()
 

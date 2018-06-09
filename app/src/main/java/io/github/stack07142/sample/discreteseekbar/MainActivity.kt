@@ -81,7 +81,7 @@ class MainActivity : AppCompatActivity() {
          */
         slider_4.getConfigBuilder()
                 .setTrackWidth(3)
-                .setTrackColor(R.color.colorRed100)
+                .setTrackColor(R.color.colorPink200)
                 .setOnValueChangedListener(object : DiscreteSeekBar.OnValueChangedListener {
                     override fun onValueChanged(value: Int) {
                         Toast.makeText(applicationContext, "value= $value", Toast.LENGTH_SHORT).show()
