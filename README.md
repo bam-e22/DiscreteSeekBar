@@ -27,7 +27,7 @@ allprojects {
 2. Add the following dependency to your build.gradle file:
 ```Gradle
 dependencies {
-        implementation 'com.github.stack07142:DiscreteSeekBar:1.0.0'
+        implementation 'com.github.stack07142:DiscreteSeekBar:1.0.1'
 }
 ```
 
@@ -38,20 +38,20 @@ dependencies {
     android:id="@+id/slider_1"
     android:layout_width="300dp"
     android:layout_height="wrap_content"
-    app:attr_maxValue="400"
-    app:attr_minValue="-400"
-    app:attr_sectionCount="4"
-    app:attr_thumbColor="@color/colorPrimaryDark"
-    app:attr_thumbDefaultSize="16dp"
-    app:attr_thumbPressedSize="24dp"
-    app:attr_tickMarkDrawable="@drawable/tickmark"
-    app:attr_tickMarkTextColor="@color/colorBlack"
-    app:attr_tickMarkTextSize="12sp"
-    app:attr_tickMarkTopMargin="18dp"
-    app:attr_trackColor="@color/colorBlueGrey900"
-    app:attr_trackTouchEnable="true"
-    app:attr_trackWidth="1dp"
-    app:attr_value="0" />
+    app:discrete_seekbar_maxValue="400"
+    app:discrete_seekbar_minValue="-400"
+    app:discrete_seekbar_sectionCount="4"
+    app:discrete_seekbar_thumbColor="@color/colorPrimaryDark"
+    app:discrete_seekbar_thumbDefaultSize="16dp"
+    app:discrete_seekbar_thumbPressedSize="24dp"
+    app:discrete_seekbar_tickMarkDrawable="@drawable/tickmark"
+    app:discrete_seekbar_tickMarkTextColor="@color/colorBlack"
+    app:discrete_seekbar_tickMarkTextSize="12sp"
+    app:discrete_seekbar_tickMarkTopMargin="18dp"
+    app:discrete_seekbar_trackColor="@color/colorBlueGrey900"
+    app:discrete_seekbar_trackTouchEnable="true"
+    app:discrete_seekbar_trackWidth="1dp"
+    app:discrete_seekbar_value="0" />
 ```
 
 ```Kotlin
